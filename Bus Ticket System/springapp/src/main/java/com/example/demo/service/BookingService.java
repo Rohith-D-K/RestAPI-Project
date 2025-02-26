@@ -49,7 +49,7 @@ public class BookingService {
     }
 
     public List<Booking> getAllBookingsSorted(String field) {
-        Sort sort = Sort.by(Sort.Direction.ASC, field);
+        Sort sort = Sort.by(Sort.Direction.DESC, field);
         return bookingRepository.findAll(sort);
     }
 
