@@ -31,6 +31,15 @@ public class DriverController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Driver> updateDriver(@PathVariable Long id, @RequestBody Driver driverDetails) {
+        Driver updatedDriver = driverService.updateDriver(id, driverDetails);
+        if (updatedDriver != null) {
+            return ResponseEntity.ok(updatedDriver);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @GetMapping("/{offset}/{pageSize}")
     public List<Driver> getAllDriversPaginated(@PathVariable int offset, @PathVariable int pageSize) {
         return driverService.getAllDriversPaginated(offset, pageSize);
@@ -65,5 +74,23 @@ public class DriverController {
     public ResponseEntity<List<Driver>> getDriversByPhone(@RequestParam String phone) {
         List<Driver> drivers = driverService.findByPhone(phone);
         return ResponseEntity.ok(drivers);
+    }
+
+    @PostMapping("/{driverId}/assign-bus/{busId}")
+    public ResponseEntity<Driver> assignBusToDriver(@PathVariable Long driverId, @PathVariable Long busId) {
+        Driver driver = driverService.assignBusToDriver(driverId, busId);
+        if (driver != null) {
+            return ResponseEntity.ok(driver);
+        }
+        return ResponseEntity.notFound().build();
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<Driver> getDriverById(@PathVariable Long id) {
+        Driver driver = driverService.findById(id);
+        if (driver != null) {
+            return ResponseEntity.ok(driver);
+        }
+        return ResponseEntity.notFound().build();
     }
 }

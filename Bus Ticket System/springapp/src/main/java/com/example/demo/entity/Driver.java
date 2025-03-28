@@ -1,17 +1,24 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Driver {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String licenseNumber;
     private String phone;
 
-    public Driver() {}
+    // The owning side of the relationship
+    @OneToOne
+    @JoinColumn(name = "bus_id", nullable = false)
+    @JsonBackReference
+    private Bus assignedBus;
 
+    public Driver() {}
  
     public Driver(Long id, String name, String licenseNumber, String phone) {
         this.id = id;
@@ -19,7 +26,6 @@ public class Driver {
         this.licenseNumber = licenseNumber;
         this.phone = phone;
     }
-
  
     public Long getId() {
         return id;
@@ -51,5 +57,13 @@ public class Driver {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Bus getAssignedBus() {
+        return assignedBus;
+    }
+
+    public void setAssignedBus(Bus assignedBus) {
+        this.assignedBus = assignedBus;
     }
 }
